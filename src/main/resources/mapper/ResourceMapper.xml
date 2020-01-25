@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="online.yangcloud.mapper.ResourceMapper">
+
+    <sql id="select_sql">
+        id, link, `name`, `type`, father, children, comment, ctime, utime
+    </sql>
+
+    <insert id="addResource" parameterType="resource">
+        insert into resources
+        (`link`, `name`, `type`, father, children, comment, ctime, utime)
+        value
+        (#{link}, #{name}, #{type}, #{father}, #{children}, #{comment} ,#{ctime} ,#{utime})
+    </insert>
+
+    <delete id="delResourceById" parameterType="int">
+        delete from resources
+        where id = #{id}
+    </delete>
+
+    <delete id="delResourceByFather" parameterType="int">
+        delete from resources
+        where father in
+        <foreach collection="fathers" item="father" open="(" separator="," close=")">
+            #{father}
+        </foreach>
+    </delete>
+
+    <update id="updateResource" parameterType="resource">
+        update resources
+        <trim prefix="set" suffixOverrides=",">
+            <if test="link != null">`link` = #{link},</if>
+            <if test="name != null">`name` = #{name},</if>
+            <if test="type != null">`type` = #{type},</if>
+            <if test="father != null">father = #{father},</if>
+            <if test="children != null">children = #{children},</if>
+            <if test="ctime != null">ctime = #{ctime},</if>
+            <if test="utime != null">utime = #{utime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <select id="findAllByFather" resultType="resource">
+        select
+        <include refid="select_sql"/>
+        from resources
+        <if test="father != null">where father = #{father}</if>
+        order by id
+    </select>
+
+    <select id="findResourceById" parameterType="int" resultType="resource">
+        select
+        <include refid="select_sql"/>
+        from resources
+        where id = #{id}
+    </select>
+
+    <select id="findByChildren" parameterType="int" resultType="resource">
+        select
+        <include refid="select_sql"/>
+        from resources
+        where children = #{children}
+    </select>
+
+    <select id="findByLastTime" resultType="resource">
+        select
+        <include refid="select_sql"/>
+        from resources
+        order by ctime desc
+        limit 0, 1
+    </select>
+
+    <select id="findMaxChildrenNumber" resultType="int">
+        select children
+        from resources
+        order by children desc
+        limit 0, 1
+    </select>
+
+</mapper>

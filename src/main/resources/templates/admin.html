@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+  <meta charset="UTF-8">
+  <title>资源共享平台 | 控制台</title>
+  <link rel="stylesheet" href="/layui2_5_6/css/layui.css">
+  <link rel="stylesheet" href="/css/resource.css">
+</head>
+<body>
+<section id="container">
+  <div class="layui-container">
+    <div class="layui-row">
+      <p class="layui-col-lg12 title">
+        <button class="layui-btn layui-btn-radius layui-btn-primary" onclick="createDir()">
+          新建文件夹
+        </button>
+        <button class="layui-btn layui-btn-radius layui-btn-primary" onclick="createFile()">
+          新建文件
+        </button>
+        <button class="layui-btn layui-btn-radius layui-btn-primary" onclick="createLink()">
+          新建链接
+        </button>
+      </p>
+      <span class="current-address"></span>
+    </div>
+    <div class="layui-row resources-list"></div>
+  </div>
+</section>
+<section id="resource-detail-layout">
+  <div class="layout-background display-none" onclick="hideLayout($('#resource-detail-layout'))"></div>
+  <div class="layout-box display-none">
+    <div class="layout-header">
+      <span class="layout-title"></span>
+      <span href="javascript:void(0)" class="layout-close" onclick="hideLayout($('#resource-detail-layout'))">+</span>
+    </div>
+    <div class="layout-container">
+      <form action="javascript:void(0)" class="layui-form">
+        <div class="layui-form-item layui-form-text">
+          <div class="layui-input-block">
+            <textarea name="link" class="layui-textarea" title="" readonly="readonly"></textarea>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+<section id="resource-edit-layout">
+  <div class="layout-background display-none" onclick="hideLayout($('#resource-edit-layout'))"></div>
+  <div class="layout-box display-none">
+    <div class="layout-header">
+      <span class="layout-title">编辑信息</span>
+      <span href="javascript:void(0)" class="layout-close" onclick="hideLayout($('#resource-edit-layout'))">+</span>
+    </div>
+    <div class="layout-container">
+      <form action="javascript:void(0)" class="layui-form">
+        <div class="layui-form-item display-none">
+          <label class="layui-form-label">ID</label>
+          <div class="layui-input-block">
+            <input type="text" name="id" required lay-verify="required" title="" readonly="readonly"
+                   autocomplete="off" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">文件名</label>
+          <div class="layui-input-block">
+            <input type="text" name="name" required lay-verify="required" title=""
+                   autocomplete="off" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+          <label class="layui-form-label">文件内容</label>
+          <div class="layui-input-block">
+            <textarea name="link" class="layui-textarea" title=""></textarea>
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <button class="layui-btn layui-btn-primary" lay-submit lay-filter="move">移动到</button>
+          <span class="resource-name"></span>
+          <input type="text" name="father" class="layui-input" title="" readonly="readonly">
+          <div id="structure" class="display-none"></div>
+        </div>
+      </form>
+    </div>
+    <div class="layout-footer">
+      <button class="layui-btn layui-btn-primary" onclick="updateResource()">确定修改</button>
+      <button class="layui-btn layui-btn-primary" onclick="hideLayout($('#resource-edit-layout'))">取消</button>
+    </div>
+  </div>
+</section>
+<section id="create-dir-layout">
+  <div class="layout-background display-none" onclick="hideLayout($('#create-dir-layout'))"></div>
+  <div class="layout-box display-none">
+    <div class="layout-header">
+      <span class="layout-title">新建目录</span>
+      <span href="javascript:void(0)" class="layout-close" onclick="hideLayout($('#create-dir-layout'))">+</span>
+    </div>
+    <div class="layout-container">
+      <form action="javascript:void(0)" class="layui-form">
+        <div class="layui-form-item">
+          <label class="layui-form-label">目录名</label>
+          <div class="layui-input-block">
+            <input type="text" name="name" required lay-verify="required" placeholder="请输入目录名" title=""
+                   autocomplete="off" class="layui-input">
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="layout-footer">
+      <button class="layui-btn layui-btn-primary" onclick="createNewDir()">创建文件夹</button>
+      <button class="layui-btn layui-btn-primary" onclick="hideLayout($('#create-dir-layout'))">取消</button>
+    </div>
+  </div>
+</section>
+<section id="create-file-layout">
+  <div class="layout-background display-none" onclick="hideLayout($('#create-file-layout'))"></div>
+  <div class="layout-box display-none">
+    <div class="layout-header">
+      <span class="layout-title">新建文件</span>
+      <span href="javascript:void(0)" class="layout-close" onclick="hideLayout($('#create-file-layout'))">+</span>
+    </div>
+    <div class="layout-container">
+      <form action="javascript:void(0)" class="layui-form">
+        <div class="layui-form-item">
+          <label class="layui-form-label">文件名</label>
+          <div class="layui-input-block">
+            <input type="text" name="name" required lay-verify="required" placeholder="请输入文件名" title=""
+                   autocomplete="off" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+          <label class="layui-form-label">文件内容</label>
+          <div class="layui-input-block">
+            <textarea name="link" class="layui-textarea" title=""></textarea>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="layout-footer">
+      <button class="layui-btn layui-btn-primary" onclick="createNewFile()">创建</button>
+      <button class="layui-btn layui-btn-primary" onclick="hideLayout($('#create-file-layout'))">取消</button>
+    </div>
+  </div>
+</section>
+<section id="create-link-layout">
+  <div class="layout-background display-none" onclick="hideLayout($('#create-link-layout'))"></div>
+  <div class="layout-box display-none">
+    <div class="layout-header">
+      <span class="layout-title">新建链接</span>
+      <span href="javascript:void(0)" class="layout-close" onclick="hideLayout($('#create-link-layout'))">+</span>
+    </div>
+    <div class="layout-container">
+      <form action="javascript:void(0)" class="layui-form">
+        <div class="layui-form-item">
+          <label class="layui-form-label">链接名</label>
+          <div class="layui-input-block">
+            <input type="text" name="name" required lay-verify="required" placeholder="请输入链接名" title=""
+                   autocomplete="off" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+          <label class="layui-form-label">链接地址</label>
+          <div class="layui-input-block">
+            <textarea name="link" class="layui-textarea" title=""></textarea>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="layout-footer">
+      <button class="layui-btn layui-btn-primary" onclick="createNewLink()">创建</button>
+      <button class="layui-btn layui-btn-primary" onclick="hideLayout($('#create-link-layout'))">取消</button>
+    </div>
+  </div>
+</section>
+<footer>
+  <script src="/js/jquery.min.js"></script>
+  <script src="/layui2_5_6/layui.js"></script>
+  <script src="/js/public.js"></script>
+  <script th:inline="javascript">
+    /*<![CDATA[*/
+
+    let layoutTimeout = 300,
+      fatherId = 0,
+      index = -1;
+
+    function loadResourceItem() {
+      fatherId = [[${fatherId}]];
+      $.get(resourceUrl + '/findByFatherId/' + fatherId, (resources) => {
+        let path = resources.path,
+          items = resources.resource,
+          resourceHtml = '',
+          resourcesList = $('.resources-list');
+        $('.current-address').html(path);
+        $.each(items, (i, v) => {
+          resourceHtml += resourceItem(v);
+        });
+        resourcesList.html(resourceHtml);
+        if (fatherId !== 0) {
+          let back = {id: fatherId, name: '返回上一级', type: 'back'};
+          resourcesList.prepend(resourceItem(back));
+        }
+      });
+      loadLayuiInfo();
+    }
+
+    loadResourceItem();
+
+    function resourceAddr(elem) {
+      let id = elem.find('.item-id').text(),
+        link = elem.find('.item-link').text(),
+        type = elem.find('.item-type').text(),
+        name = elem.find('.item-content').text();
+      switch (type) {
+        case 'file':
+          $('.header-title').html(name);
+          $.get('/resources/findById/' + id, (result) => {
+            $('#resource-detail-layout .layout-title').html(result.name);
+            $('#resource-detail-layout textarea[name=link]').val(result.link);
+            showLayout($('#resource-detail-layout'));
+          });
+          break;
+        case 'link':
+          window.open(link);
+          break;
+        case 'folder':
+          $.get(resourceUrl + '/findById/' + id, (resource) => {
+            changePage(resource.children);
+          });
+          break;
+        case 'back':
+          $.get('/resources/findByChildren/' + id, (resource) => {
+            console.info(resource);
+            changePage(resource.father);
+          });
+          break;
+      }
+    }
+
+    function editResource(elem) {
+      let resourceId = elem.parents('.item-box').find('.item-id').text();
+      index = elem.parents('.item-box').index();
+      $.get(resourceUrl + '/findById/' + parseInt(resourceId), (resource) => {
+        $('#resource-edit-layout input[name=id]').val(resource.id);
+        $('#resource-edit-layout input[name=name]').val(resource.name);
+        $('#resource-edit-layout textarea[name=link]').val(resource.link);
+        showLayout($('#resource-edit-layout'));
+      });
+    }
+
+    function updateResource() {
+      $.post(resourceUrl + '/updateResource?' + $('#resource-edit-layout form').serialize(), (result) => {
+        if (result === 1) {
+          alertInfo('修改成功');
+          $.get(resourceUrl + '/findById/' + $('#resource-edit-layout input[name=id]').val(), (resource) => {
+            let itemBox = $('.item-box');
+            itemBox.eq(index).find('.item-id').html(resource.id);
+            itemBox.eq(index).find('.item-link').html(resource.link);
+            itemBox.eq(index).find('.item-content').html(resource.name);
+            index = -1;
+          });
+          hideLayout($('#resource-edit-layout'));
+          $('#resource-edit-layout form').find('input, textarea').val('');
+          window.location.reload();
+        } else {
+          alertInfo('修改失败');
+        }
+      });
+    }
+
+    function createDir() {
+      $('#create-dir-layout form').find('input, textarea').val('');
+      showLayout($('#create-dir-layout'));
+    }
+
+    function createNewDir() {
+      $.post(resourceUrl + '/addResource', {
+        name: $('#create-dir-layout input[name=name]').val(),
+        type: 'folder',
+        father: fatherId
+      }, (resource) => {
+        if (resource !== '') {
+          alertInfo('目录创建成功');
+          $('.resources-list').append(resourceItem(resource));
+          hideLayout($('#create-dir-layout'));
+        } else {
+          alertInfo('目录创建失败');
+        }
+      });
+    }
+
+    function createFile() {
+      $('#create-file-layout form').find('input, textarea').val('');
+      showLayout($('#create-file-layout'));
+    }
+
+    function createNewFile() {
+      $.post(resourceUrl + '/addResource', {
+        name: $('#create-file-layout input[name=name]').val(),
+        link: $('#create-file-layout textarea[name=link]').val(),
+        type: 'file',
+        father: fatherId
+      }, (resource) => {
+        if (resource !== '') {
+          alertInfo('文件创建成功');
+          $('.resources-list').append(resourceItem(resource));
+          hideLayout($('#create-file-layout'));
+        } else {
+          alertInfo('文件创建失败');
+        }
+      })
+    }
+
+    function createLink() {
+      $('#create-link-layout form').find('input, textarea').val('');
+      showLayout($('#create-link-layout'));
+    }
+
+    function createNewLink() {
+      $.post(resourceUrl + '/addResource', {
+        name: $('#create-link-layout input[name=name]').val(),
+        link: $('#create-link-layout textarea[name=link]').val(),
+        type: 'link',
+        father: fatherId
+      }, (resource) => {
+        if (resource !== '') {
+          alertInfo('链接创建成功');
+          $('.resources-list').append(resourceItem(resource));
+          hideLayout($('#create-link-layout'));
+        } else {
+          alertInfo('链接创建失败');
+        }
+      })
+    }
+
+    function delResource(elem) {
+      let id = parseInt(elem.parents('.item-box').find('.item-id').text()),
+        type = elem.parents('.item-box').find('.item-type').text();
+      $.post(resourceUrl + '/delResource/' + id + '/' + type, (result) => {
+        if (result > 0) {
+          alertInfo('删除成功');
+          elem.parents('.item-box').remove();
+        } else {
+          alertInfo('删除失败');
+        }
+      });
+    }
+
+    function loadLayuiInfo() {
+      layui.use(['form', 'tree'], () => {
+        let form = layui.form,
+          tree = layui.tree;
+        form.on('submit(move)', elem => {
+          let structure = $('#structure');
+          if (structure.css('display') === 'block')
+            structure.fadeOut();
+          else
+            structure.fadeIn();
+        });
+        $.get(resourceUrl + '/getTreeStructure', data => {
+          tree.render({
+            elem: '#structure',
+            data: data,
+            click: function (obj) {
+              let data = obj.data;
+              $('input[name=father]').val(data.id);
+              $('.resource-name').html(data.title);
+              $('#structure').fadeOut();
+            }
+          });
+        });
+      });
+    }
+
+    function changePage(fatherId) {
+      window.location.href = '/admin/' + fatherId;
+    }
+
+    function resourceItem(item) {
+      let type = item.type === 'link' ? '/img/link.png' : (item.type === 'file' ? '/img/file.png' : '/img/folder.png'),
+        link = item.type === 'link' ? '<span class="item-link display-none">' + item.link + '</span>' : '';
+      return '<div class="layui-col-lg3 layui-col-xs12 item-box">' +
+        '<a class="resource-item" href="javascript:void(0)" onclick="resourceAddr($(this))">' +
+        '<span class="item-id display-none">' + item.id + '</span>' +
+        '<span class="item-type display-none">' + item.type + '</span>' + link +
+        '<div class="item-icon"><img src="' + type + '" alt=""/></div>' +
+        '<div class="item-content">' + item.name + '</div>' +
+        '</a>' +
+        '<div class="item-action">' +
+        '<a href="javascript:void(0)" class="layui-col-lg-offset2 layui-col-lg4 layui-col-xs-offset2 layui-col-xs4 edit"' +
+        ' onclick="editResource($(this))">编辑</a>' +
+        '<a href="javascript:void(0)" class="layui-col-lg4 layui-col-xs4 delete" onclick="delResource($(this))">删除</a>' +
+        '<span class="clear-float"></span>' +
+        '</div>' +
+        '</div>';
+    }
+
+    function alertInfo(info) {
+      layui.use('form', () => {
+        layui.layer.msg(info);
+      })
+    }
+
+    /*]]>*/
+  </script>
+</footer>
+</body>
+</html>

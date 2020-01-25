@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+  <meta charset="UTF-8">
+  <title>资源共享平台</title>
+  <link rel="stylesheet" href="/layui2_5_6/css/layui.css">
+  <link rel="stylesheet" href="/css/resource.css">
+</head>
+<body>
+<section id="container">
+  <div class="layui-container">
+    <div class="layui-row">
+      <p class="layui-col-lg12 title">终于等到你了，欢迎使用资源共享平台</p>
+      <span class="current-address"></span>
+    </div>
+    <div class="layui-row resources-list"></div>
+  </div>
+</section>
+<section id="detail-layout">
+  <div class="layout-background display-none" onclick="hideLayout($('#detail-layout'))"></div>
+  <div class="layout-box display-none">
+    <div class="layout-header">
+      <span class="layout-title"></span>
+      <span class="layout-close" onclick="hideLayout($('#detail-layout'))">+</span>
+    </div>
+    <div class="layout-container">
+      <div class="layui-form-item layui-form-text">
+        <div class="layui-input-block">
+          <textarea name="link" class="layui-textarea" readonly="readonly" title=""></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="layout-footer">
+      <button type="button" class="layui-btn layui-btn-radius layui-btn-primary"
+              onclick="hideLayout($('#detail-layout'))">关闭</button>
+    </div>
+  </div>
+</section>
+<footer>
+  <script src="/js/jquery.min.js"></script>
+  <script src="/layui2_5_6/layui.js"></script>
+  <script src="/js/public.js"></script>
+  <script th:inline="javascript">
+    /*<![CDATA[*/
+
+    let layoutTimeout = 300,
+      fatherId = 0;
+
+    function loadResourceItem() {
+      fatherId = [[${fatherId}]];
+      $.get(resourceUrl + '/findByFatherId/' + fatherId, function (resources) {
+        let path = resources.path,
+          items = resources.resource,
+          itemHtml = '';
+        $('.current-address').html(path);
+        $.each(items, function (i, v) {
+          itemHtml += resourceItem(v);
+        });
+        let resourcesList = $('.resources-list');
+        resourcesList.html(itemHtml);
+        if (fatherId !== 0) {
+          let back = {id: fatherId, name: '返回上一级', type: 'back'};
+          resourcesList.prepend(resourceItem(back));
+        }
+      });
+    }
+
+    loadResourceItem();
+
+    function resourceAddr(elem) {
+      let id = elem.find('.item-id').text(),
+        link = elem.find('.item-link').text(),
+        type = elem.find('.item-type').text(),
+        name = elem.find('.item-content').text();
+      switch (type) {
+        case 'file':
+          $('.header-title').html(name);
+          $.get('/resources/findById/' + id, (result) => {
+            $('.layout-title').html(result.name);
+            $('#detail-layout textarea[name=link]').val(result.link);
+            showLayout($('#detail-layout'));
+          });
+          break;
+        case 'link':
+          window.open(link);
+          break;
+        case 'folder':
+          $.get(resourceUrl + '/findById/' + id, (resource) => {
+            changePage(resource.children);
+          });
+          break;
+        case 'back':
+          $.get('/resources/findByChildren/' + fatherId, (resource) => {
+            changePage(resource.father);
+          });
+          break;
+      }
+    }
+
+    function changePage(fatherId) {
+      window.location.href = '/' + fatherId;
+    }
+
+    function resourceItem(item) {
+      let type = item.type === 'link' ? '/img/link.png' : (item.type === 'file' ? '/img/file.png' : '/img/folder.png'),
+        link = item.type === 'link' ? '<span class="item-link display-none">' + item.link + '</span>' : '';
+      return '<div class="layui-col-lg3 layui-col-xs12 item-box">' +
+        '<a class="resource-item" href="javascript:void(0)" onclick="resourceAddr($(this))">' +
+        '<span class="item-id display-none">' + item.id + '</span>' + link +
+        '<span class="item-type display-none">' + item.type + '</span>' +
+        '<div class="item-icon"><img src="' + type + '" alt=""/></div>' +
+        '<div class="item-content">' + item.name + '</div>' +
+        '</a></div>';
+    }
+
+    /*]]>*/
+  </script>
+</footer>
+</body>
+</html>
