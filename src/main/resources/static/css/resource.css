@@ -173,6 +173,13 @@ input[name=father] {
     border: 1px solid #c9c9c9;
 }
 
+.email {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    padding: 10px;
+}
+
 @media screen and (min-width: 1200px) {
     .item-box {
         width: calc(25% - 10px);
