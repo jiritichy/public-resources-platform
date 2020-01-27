@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="online.yangcloud.mapper.ServiceIpMapper">
+
+    <insert id="addIp" parameterType="serviceIp">
+        insert into service_ip
+        (ip, `time`)
+        value
+        (#{ip}, #{time})
+    </insert>
+
+    <update id="updateIp" parameterType="serviceIp">
+        update service_ip
+        set `time` = #{time}
+    </update>
+
+    <select id="findByIp" parameterType="string" resultType="serviceIp">
+        select id, ip, `time`
+        from service_ip
+        where ip = #{ip}
+    </select>
+
+</mapper>

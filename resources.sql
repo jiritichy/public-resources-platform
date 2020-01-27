@@ -11,7 +11,7 @@
  Target Server Version : 50727
  File Encoding         : 65001
 
- Date: 26/01/2020 16:27:01
+ Date: 27/01/2020 14:29:58
 */
 
 SET NAMES utf8mb4;
@@ -40,7 +40,7 @@ CREATE TABLE `resources`  (
 -- ----------------------------
 -- Records of resources
 -- ----------------------------
-INSERT INTO `resources` VALUES (1, 'https://gitee.com/yongcloud/input_special_effect', 'input 输入框特效——Gitee 下载地址', 'link', 6, NULL, NULL, '2019-12-31 09:45:04', '2019-12-31 09:45:04');
+INSERT INTO `resources` VALUES (1, 'https://github.com/wuhan2020/wuhan2020', '武汉新型冠状病毒防疫信息收集平台', 'link', 0, 18, NULL, '2020-01-26 05:24:44', '2020-01-26 05:24:44');
 INSERT INTO `resources` VALUES (2, '<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<settings xmlns=\"http://maven.apache.org/SETTINGS/1.0.0\" \n          xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" \n          xsi:schemaLocation=\"http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd\">\n  <localRepository>D:\\Repositories\\Maven</localRepository>\n  <pluginGroups>\n	<pluginGroup>org.mortbay.jetty</pluginGroup>\n  </pluginGroups>\n  <proxies>\n  </proxies>\n  <servers>\n    <server>\n        <id>releases</id>\n        <username>ali</username>\n        <password>ali</password>\n      </server>\n      <server>\n        <id>Snapshots</id>\n        <username>ali</username>\n        <password>ali</password>\n      </server>\n  </servers>\n  <mirrors>\n    <mirror>\n      <id>nexus</id>\n      <mirrorOf>*</mirrorOf> \n      <url>http://maven.aliyun.com/nexus/content/groups/public/</url>\n    </mirror>\n    <mirror>\n      <id>nexus-public-snapshots</id>\n      <mirrorOf>public-snapshots</mirrorOf> \n      <url>http://maven.aliyun.com/nexus/content/repositories/snapshots/</url>\n    </mirror>\n  </mirrors>\n  <profiles> \n    <profile>\n      <id>development</id>\n      <repositories>\n        <repository>\n          <id>central</id>\n          <url>http://central</url>\n          <releases><enabled>true</enabled><updatePolicy>always</updatePolicy></releases>\n          <snapshots><enabled>true</enabled><updatePolicy>always</updatePolicy></snapshots>\n        </repository>\n      </repositories>\n     <pluginRepositories>\n        <pluginRepository>\n          <id>central</id>\n          <url>http://central</url>\n          <releases><enabled>true</enabled><updatePolicy>always</updatePolicy></releases>\n          <snapshots><enabled>true</enabled><updatePolicy>always</updatePolicy></snapshots>\n        </pluginRepository>\n      </pluginRepositories>\n    </profile>\n    <profile>\n      <id>public-snapshots</id>\n      <repositories>\n        <repository>\n          <id>public-snapshots</id>\n          <url>http://public-snapshots</url>\n          <releases><enabled>false</enabled></releases>\n          <snapshots><enabled>true</enabled><updatePolicy>always</updatePolicy></snapshots>\n        </repository>\n      </repositories>\n     <pluginRepositories>\n        <pluginRepository>\n          <id>public-snapshots</id>\n          <url>http://public-snapshots</url>\n          <releases><enabled>false</enabled></releases>\n          <snapshots><enabled>true</enabled><updatePolicy>always</updatePolicy></snapshots>\n        </pluginRepository>\n      </pluginRepositories>\n    </profile>\n  </profiles>\n   <activeProfiles>\n    <activeProfile>development</activeProfile>\n    <activeProfile>public-snapshots</activeProfile>\n   </activeProfiles>\n</settings>', 'maven-setting.xml', 'file', 8, NULL, NULL, '2019-12-31 09:45:04', '2019-12-31 09:45:04');
 INSERT INTO `resources` VALUES (3, 'https://download.jetbrains.8686c.com/python/pycharm-professional-2019.3.2.exe', 'pycharm-professional-2019.3.2.exe', 'link', 1, NULL, NULL, '2019-12-31 09:45:04', '2020-01-22 15:18:47');
 INSERT INTO `resources` VALUES (4, 'Vovan\r\n3AG46-JJ48E-CEACC-8E6EW-ECUAW', 'Editplus 注册码', 'file', 17, NULL, NULL, '2019-12-31 09:45:04', '2020-01-25 23:39:23');
@@ -49,6 +49,7 @@ INSERT INTO `resources` VALUES (6, '王涛\r\n7C81-1689-4046-626F', 'UltraISO �
 INSERT INTO `resources` VALUES (7, 'https://code2flow.com/', '根据代码实时生成流程图', 'link', 15, NULL, NULL, '2019-12-31 09:45:04', '2020-01-25 23:34:53');
 INSERT INTO `resources` VALUES (8, 'http://inputcss.bcloud.net.cn', 'input 输入框特效——演示', 'link', 6, NULL, NULL, '2019-12-31 09:45:04', '2019-12-31 09:45:04');
 INSERT INTO `resources` VALUES (9, '', 'SSM项目配置文件', 'folder', 0, 8, NULL, '2019-12-31 09:45:04', '2019-12-31 09:45:04');
+INSERT INTO `resources` VALUES (10, 'https://gitee.com/yongcloud/input_special_effect', 'input 输入框特效——Gitee 下载地址', 'link', 6, NULL, NULL, '2019-12-31 09:45:04', '2019-12-31 09:45:04');
 INSERT INTO `resources` VALUES (11, '<context-param>\n        <param-name>contextConfigLocation</param-name>\n        <param-value>classpath*:applicationContext.xml</param-value>\n    </context-param>\n\n    <filter>\n        <filter-name>encodingFilter</filter-name>\n        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>\n        <init-param>\n            <param-name>encoding</param-name>\n            <param-value>UTF-8</param-value>\n        </init-param>\n    </filter>\n\n    <filter-mapping>\n        <filter-name>encodingFilter</filter-name>\n        <url-pattern>/*</url-pattern>\n    </filter-mapping>\n\n    <listener>\n        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>\n    </listener>\n\n    <servlet>\n        <servlet-name>online</servlet-name>\n        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>\n        <init-param>\n            <param-name>contextConfigLocation</param-name>\n            <param-value>/WEB-INF/weibo.xml</param-value>\n        </init-param>\n    </servlet>\n\n    <servlet-mapping>\n        <servlet-name>online</servlet-name>\n        <url-pattern>/</url-pattern>\n    </servlet-mapping>\n\n    <welcome-file-list>\n        <welcome-file>index.html</welcome-file>\n    </welcome-file-list>', 'ssm-web.xml', 'file', 8, NULL, NULL, '2019-12-31 09:45:04', '2019-12-31 09:45:04');
 INSERT INTO `resources` VALUES (12, 'https://github.com/datawhalechina/leeml-notes', '李宏毅机器学习笔记', 'link', 4, NULL, NULL, '2019-12-31 09:45:04', '2019-12-31 09:45:04');
 INSERT INTO `resources` VALUES (13, '', '软件工具下及激活码', 'folder', 0, 1, NULL, '2019-12-31 09:45:04', '2019-12-31 09:45:04');
@@ -115,16 +116,16 @@ INSERT INTO `resources` VALUES (83, '<?xml version=\"1.0\" encoding=\"UTF-8\"?>\
 INSERT INTO `resources` VALUES (84, NULL, '实用工具', 'folder', 0, 15, NULL, '2020-01-25 23:32:51', '2020-01-25 23:32:51');
 INSERT INTO `resources` VALUES (85, NULL, 'Coding 课程', 'folder', 0, 16, NULL, '2020-01-25 23:34:38', '2020-01-25 23:34:38');
 INSERT INTO `resources` VALUES (86, NULL, '激活码 - 合集 - (收集中)', 'folder', 0, 17, NULL, '2020-01-25 23:38:47', '2020-01-25 23:38:47');
-INSERT INTO `resources` VALUES (87, 'https://github.com/wuhan2020/wuhan2020', '武汉新型冠状病毒防疫信息收集平台', 'link', 0, 18, NULL, '2020-01-26 05:24:44', '2020-01-26 05:24:44');
 
 -- ----------------------------
--- Table structure for userinfo
+-- Table structure for service_ip
 -- ----------------------------
-DROP TABLE IF EXISTS `userinfo`;
-CREATE TABLE `userinfo`  (
-  `username` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `password` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  PRIMARY KEY (`username`) USING BTREE
+DROP TABLE IF EXISTS `service_ip`;
+CREATE TABLE `service_ip`  (
+  `id` bigint(11) NOT NULL,
+  `ip` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `time` datetime(0) NOT NULL,
+  PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;

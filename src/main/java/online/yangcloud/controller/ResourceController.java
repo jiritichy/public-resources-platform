@@ -1,9 +1,14 @@
 package online.yangcloud.controller;
 
 import online.yangcloud.entity.Resource;
+import online.yangcloud.entity.ServiceIp;
+import online.yangcloud.service.IpService;
 import online.yangcloud.service.ResourceService;
+import online.yangcloud.tools.IpAddrTool;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -17,9 +22,11 @@ import java.util.Map;
 public class ResourceController {
 
     private final ResourceService resourceServiceImpl;
+    private final IpService ipServiceImpl;
 
-    public ResourceController(ResourceService resourceServiceImpl) {
+    public ResourceController(ResourceService resourceServiceImpl, IpService ipServiceImpl) {
         this.resourceServiceImpl = resourceServiceImpl;
+        this.ipServiceImpl = ipServiceImpl;
     }
 
     @PostMapping(value = "/addResource")
@@ -39,7 +46,17 @@ public class ResourceController {
     }
 
     @GetMapping(value = "/findByFatherId/{fatherId}")
-    public Map<String, Object> findResourceList(@PathVariable("fatherId") int fatherId) {
+    public Map<String, Object> findResourceList(@PathVariable("fatherId") int fatherId,
+                                                HttpServletRequest request) {
+        String ip = IpAddrTool.getAddr(request);
+        ServiceIp ipAddr = ipServiceImpl.findByIp(ip);
+        if (ipAddr != null) {
+            ipAddr.setTime(new Date());
+            ipServiceImpl.updateIp(ipAddr);
+        } else {
+            ServiceIp newIp = new ServiceIp(ip, new Date());
+            ipServiceImpl.addIp(newIp);
+        }
         return resourceServiceImpl.findAll(fatherId);
     }
 
