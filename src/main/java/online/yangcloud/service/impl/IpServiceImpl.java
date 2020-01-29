@@ -1,5 +1,6 @@
 package online.yangcloud.service.impl;
 
+import online.yangcloud.entity.PageInfo;
 import online.yangcloud.entity.ServiceIp;
 import online.yangcloud.mapper.ServiceIpMapper;
 import online.yangcloud.service.IpService;
@@ -34,4 +35,10 @@ public class IpServiceImpl implements IpService {
         return serviceIpMapper.findByIp(ip);
     }
 
+    @Override
+    public PageInfo<ServiceIp> findAll(PageInfo<ServiceIp> info) {
+        info.setCount(serviceIpMapper.getIpSize());
+        info.setData(serviceIpMapper.findAll((info.getPage() - 1) * info.getLimit(), info.getLimit()));
+        return info;
+    }
 }

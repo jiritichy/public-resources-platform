@@ -38,4 +38,9 @@ public class UrlController {
         model.addAttribute("fatherId", fatherId);
         return "admin";
     }
+
+    @GetMapping(value = "/ip")
+    public String ips() {
+        return "ip";
+    }
 }

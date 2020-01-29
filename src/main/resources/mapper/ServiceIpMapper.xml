@@ -12,12 +12,24 @@
     <update id="updateIp" parameterType="serviceIp">
         update service_ip
         set `time` = #{time}
+        where id = #{id}
     </update>
 
     <select id="findByIp" parameterType="string" resultType="serviceIp">
         select id, ip, `time`
         from service_ip
         where ip = #{ip}
+    </select>
+
+    <select id="getIpSize" resultType="int">
+        select count(id)
+        from service_ip
+    </select>
+
+    <select id="findAll" parameterType="int" resultType="serviceIp">
+        select id, ip, `time`
+        from service_ip
+        limit #{page}, #{limit}
     </select>
 
 </mapper>

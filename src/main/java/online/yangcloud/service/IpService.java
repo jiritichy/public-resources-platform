@@ -1,5 +1,6 @@
 package online.yangcloud.service;
 
+import online.yangcloud.entity.PageInfo;
 import online.yangcloud.entity.ServiceIp;
 
 /**
@@ -14,5 +15,7 @@ public interface IpService {
     int updateIp(ServiceIp serviceIp);
 
     ServiceIp findByIp(String ip);
+
+    PageInfo<ServiceIp> findAll(PageInfo<ServiceIp> info);
 
 }
