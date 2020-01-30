@@ -16,12 +16,14 @@ public class ServiceIp {
 
     private int id;
     private String ip;
+    private String address;
     private Date time;
 
     public ServiceIp() {}
 
-    public ServiceIp(String ip, Date time) {
+    public ServiceIp(String ip, String address, Date time) {
         this.ip = ip;
+        this.address = address;
         this.time = time;
     }
 

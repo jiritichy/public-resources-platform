@@ -18,6 +18,7 @@ function loadIpList(ips) {
         [
           {field: 'id', title: 'id'},
           {field: 'ip', title: 'IP地址'},
+          {field: 'address', title: '归属地'},
           {
             field: 'time', title: '最近一次访问时间', templet: data => {
               return getTimeStrByDate(new Date(data.time));

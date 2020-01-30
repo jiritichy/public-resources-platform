@@ -54,7 +54,8 @@ public class ResourceController {
             ipAddr.setTime(new Date());
             ipServiceImpl.updateIp(ipAddr);
         } else {
-            ServiceIp newIp = new ServiceIp(ip, new Date());
+            String address = IpAddrTool.reverseIpToAddress(ip);
+            ServiceIp newIp = new ServiceIp(ip, address, new Date());
             ipServiceImpl.addIp(newIp);
         }
         return resourceServiceImpl.findAll(fatherId);

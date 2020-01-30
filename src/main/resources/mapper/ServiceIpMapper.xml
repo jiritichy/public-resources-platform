@@ -4,19 +4,22 @@
 
     <insert id="addIp" parameterType="serviceIp">
         insert into service_ip
-        (ip, `time`)
+        (ip, address, `time`)
         value
-        (#{ip}, #{time})
+        (#{ip}, #{address}, #{time})
     </insert>
 
     <update id="updateIp" parameterType="serviceIp">
         update service_ip
-        set `time` = #{time}
+        <trim prefix="set" suffixOverrides=",">
+            <if test="time != null">`time` = #{time},</if>
+            <if test="address != null">address = #{address},</if>
+        </trim>
         where id = #{id}
     </update>
 
     <select id="findByIp" parameterType="string" resultType="serviceIp">
-        select id, ip, `time`
+        select id, ip, address, `time`
         from service_ip
         where ip = #{ip}
     </select>
@@ -27,7 +30,7 @@
     </select>
 
     <select id="findAll" parameterType="int" resultType="serviceIp">
-        select id, ip, `time`
+        select id, ip, address, `time`
         from service_ip
         limit #{page}, #{limit}
     </select>
