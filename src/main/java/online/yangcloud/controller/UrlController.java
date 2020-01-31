@@ -30,12 +30,7 @@ public class UrlController {
     }
 
     @GetMapping(value = {"/", "/index"})
-    public String toIndex() {
-        return "redirect:/0";
-    }
-
-    @GetMapping(value = "/{fatherId}")
-    public String index(@PathVariable("fatherId") int fatherId, Model model, HttpServletRequest request) {
+    public String toIndex(HttpServletRequest request) {
         String ip = IpAddrTool.getAddr(request);
         ServiceIp ipAddr = ipServiceImpl.findByIp(ip);
         if (ipAddr != null) {
@@ -46,6 +41,11 @@ public class UrlController {
             ServiceIp newIp = new ServiceIp(ip, address, new Date());
             ipServiceImpl.addIp(newIp);
         }
+        return "redirect:/0";
+    }
+
+    @GetMapping(value = "/{fatherId}")
+    public String index(@PathVariable("fatherId") int fatherId, Model model) {
         model.addAttribute("fatherId", fatherId);
         return "resource";
     }
