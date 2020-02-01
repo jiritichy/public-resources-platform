@@ -25,13 +25,20 @@
     </select>
 
     <select id="getIpSize" resultType="int">
-        select count(id)
+        select count(*)
+        from (select id
         from service_ip
+        group by ip) as sip
     </select>
 
     <select id="findAll" parameterType="int" resultType="serviceIp">
-        select id, ip, address, `time`
+        select si.id, si.ip, si.address, si.`time`
+        from service_ip si,
+        (select id, ip, address, `time`
         from service_ip
+        group by ip
+        order by id) as sip
+        where si.id = sip.id
         limit #{page}, #{limit}
     </select>
 

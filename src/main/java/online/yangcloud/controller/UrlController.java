@@ -32,7 +32,7 @@ public class UrlController {
     @GetMapping(value = {"/", "/index"})
     public String toIndex(HttpServletRequest request) {
         String ip = IpAddrTool.getAddr(request);
-        ServiceIp ipAddr = ipServiceImpl.findByIp(ip);
+        ServiceIp ipAddr = ipServiceImpl.findByIp(ip.trim());
         if (ipAddr != null) {
             ipAddr.setTime(new Date());
             ipServiceImpl.updateIp(ipAddr);
