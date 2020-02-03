@@ -32,15 +32,9 @@ public class UrlController {
     @GetMapping(value = {"/", "/index"})
     public String toIndex(HttpServletRequest request) {
         String ip = IpAddrTool.getAddr(request);
-        ServiceIp ipAddr = ipServiceImpl.findByIp(ip.trim());
-        if (ipAddr != null) {
-            ipAddr.setTime(new Date());
-            ipServiceImpl.updateIp(ipAddr);
-        } else {
-            String address = IpAddrTool.reverseIpToAddress(ip);
-            ServiceIp newIp = new ServiceIp(ip, address, new Date());
-            ipServiceImpl.addIp(newIp);
-        }
+        String address = IpAddrTool.reverseIpToAddress(ip);
+        ServiceIp newIp = new ServiceIp(ip, address, new Date());
+        ipServiceImpl.addIp(newIp);
         return "redirect:/0";
     }
 
