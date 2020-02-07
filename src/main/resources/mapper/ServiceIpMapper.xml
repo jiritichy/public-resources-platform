@@ -32,14 +32,12 @@
     </select>
 
     <select id="findAll" parameterType="int" resultType="serviceIp">
-        select si.id, si.ip, si.address, si.`time`
-        from service_ip si,
-        (select id, ip, address, `time`
-        from service_ip
-        group by ip
-        order by id) as sip
-        where si.id = sip.id
-        limit #{page}, #{limit}
+        select sip.id, ip, address, time
+        from service_ip sip,
+            (select id
+            from service_ip
+            limit #{page}, #{limit}) sid
+        where sip.id = sid.id
     </select>
 
 </mapper>
