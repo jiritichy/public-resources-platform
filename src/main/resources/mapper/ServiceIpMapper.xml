@@ -26,9 +26,7 @@
 
     <select id="getIpSize" resultType="int">
         select count(*)
-        from (select id
         from service_ip
-        group by ip) as sip
     </select>
 
     <select id="findAll" parameterType="int" resultType="serviceIp">
