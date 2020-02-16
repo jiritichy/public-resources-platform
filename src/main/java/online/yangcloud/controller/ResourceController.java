@@ -2,6 +2,9 @@ package online.yangcloud.controller;
 
 import online.yangcloud.entity.Resource;
 import online.yangcloud.service.ResourceService;
+import online.yangcloud.tools.GlobalConstant;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,6 +19,8 @@ import java.util.Map;
 @RequestMapping(value = "/resources")
 public class ResourceController {
 
+    private Logger logger = LoggerFactory.getLogger(ResourceController.class);
+
     private final ResourceService resourceServiceImpl;
 
     public ResourceController(ResourceService resourceServiceImpl) {
@@ -23,9 +28,8 @@ public class ResourceController {
     }
 
     @PostMapping(value = "/addResource")
-    public Resource addResource(Resource resource) {
-        System.out.println(resource);
-        return resourceServiceImpl.addResource(resource);
+    public int addResource(Resource resource) {
+        return resourceServiceImpl.addResource(resource) != null ? GlobalConstant.SUCCESS : GlobalConstant.ERROR;
     }
 
     @PostMapping(value = "/delResource/{id}/{type}")
@@ -57,4 +61,17 @@ public class ResourceController {
     public List<Map<String, Object>> getTreeStructure() {
         return resourceServiceImpl.getTreeStructure();
     }
+
+    @PostMapping(value = "/rankResources/{father}/{oldIndex}/{newIndex}")
+    public int rankResources(@PathVariable("father") int father, @PathVariable("oldIndex") int oldIndex,
+                             @PathVariable("newIndex") int newIndex) {
+        return resourceServiceImpl.rankResources(father, oldIndex, newIndex);
+    }
+
+    @PostMapping(value = "/updateCount/{id}")
+    public int updateCount(@PathVariable("id") int id) {
+        resourceServiceImpl.updateCount(id);
+        return GlobalConstant.SUCCESS;
+    }
+
 }

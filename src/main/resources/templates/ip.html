@@ -6,8 +6,8 @@
     <meta charset="UTF-8">
     <title>资源共享平台 - IP记录台</title>
     <link rel="icon" type="image/x-icon" href="/img/favicon.ico"/>
-    <link rel="stylesheet" href="/layui2_5_6/css/layui.css">
-    <link rel="stylesheet" href="/css/ip.css">
+    <link rel="stylesheet" href="https://www.layuicdn.com/layui/css/layui.css">
+    <link rel="stylesheet" href="/css/public.css">
 </head>
 <body class="layui-layout-body" onload="loadIp()">
 <div class="layui-layout layui-layout-admin">
@@ -16,7 +16,10 @@
     </div>
     <div class="layui-side layui-bg-black">
         <div class="layui-side-scroll">
-            <ul class="layui-nav layui-nav-tree" lay-filter="test">
+            <ul class="layui-nav layui-nav-tree">
+                <li class="layui-nav-item">
+                    <a href="javascript:void(0);" onclick="window.location.href='/admin/resources';">资源管理</a>
+                </li>
                 <li class="layui-nav-item layui-nav-itemed">
                     <a href="javascript:void(0);">访问者IP</a>
                 </li>
@@ -34,8 +37,9 @@
     </div>
 </div>
 <footer>
-    <script src="/js/jquery.min.js"></script>
-    <script src="/layui2_5_6/layui.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://www.layuicdn.com/layui/layui.js"></script>
     <script src="/js/ip.js"></script>
 </footer>
 </body>

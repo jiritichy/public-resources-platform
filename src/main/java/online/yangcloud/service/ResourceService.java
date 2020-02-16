@@ -25,4 +25,9 @@ public interface ResourceService {
     Resource findByChildren(int children);
 
     List<Map<String, Object>> getTreeStructure();
+
+    int rankResources(int father, int oldIndex, int newIndex);
+
+    void updateCount(int id);
+
 }

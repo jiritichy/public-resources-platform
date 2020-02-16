@@ -30,4 +30,6 @@ public interface ResourceMapper {
 
     int findMaxChildrenNumber();
 
+    Integer findMaxSortByFather(@Param("father") Integer father);
+
 }

@@ -3,14 +3,14 @@
 <mapper namespace="online.yangcloud.mapper.ResourceMapper">
 
     <sql id="select_sql">
-        id, link, `name`, `type`, father, children, comment, ctime, utime
+        id, link, `name`, `type`, father, children, comment, ctime, `count`, sort
     </sql>
 
     <insert id="addResource" parameterType="resource">
         insert into resources
-        (`link`, `name`, `type`, father, children, comment, ctime, utime)
+        (`link`, `name`, `type`, father, children, comment, ctime, `count`, sort)
         value
-        (#{link}, #{name}, #{type}, #{father}, #{children}, #{comment} ,#{ctime} ,#{utime})
+        (#{link}, #{name}, #{type}, #{father}, #{children}, #{comment}, #{ctime}, #{count}, #{sort})
     </insert>
 
     <delete id="delResourceById" parameterType="int">
@@ -35,7 +35,8 @@
             <if test="father != null">father = #{father},</if>
             <if test="children != null">children = #{children},</if>
             <if test="ctime != null">ctime = #{ctime},</if>
-            <if test="utime != null">utime = #{utime},</if>
+            <if test="count != null">`count` = #{count},</if>
+            <if test="sort != null">sort = #{sort},</if>
         </trim>
         where id = #{id}
     </update>
@@ -45,7 +46,7 @@
         <include refid="select_sql"/>
         from resources
         <if test="father != null">where father = #{father}</if>
-        order by id
+        order by sort, id
     </select>
 
     <select id="findResourceById" parameterType="int" resultType="resource">
@@ -75,6 +76,14 @@
         from resources
         order by children desc
         limit 0, 1
+    </select>
+
+    <select id="findMaxSortByFather" parameterType="int" resultType="int">
+        select sort
+        from resources
+        where father = #{father}
+        order by sort desc
+        limit 1
     </select>
 
 </mapper>

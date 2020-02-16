@@ -1,0 +1,113 @@
+.display-none {
+    display: none;
+}
+
+.box-title {
+    padding: 15px 20px;
+    font-weight: bold;
+    border-bottom: 1px solid #F2F2F2;
+}
+
+.box-content {
+    padding: 10px 20px;
+}
+
+/* customer model style */
+
+.layout-background {
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: #000000;
+    opacity: 0;
+    z-index: 10000;
+}
+
+.background-fixed {
+    opacity: .5;
+}
+
+.layout-box {
+    width: 500px;
+    background: #FFFFFF;
+    border-radius: 5px;
+    box-shadow: 0 0 20px #444444;
+    position: fixed;
+    top: 25%;
+    left: 50%;
+    opacity: 0;
+    transform: translate(-50%, -50%);
+    z-index: 10000;
+}
+
+.box-fixed {
+    top: 35%;
+    opacity: 1;
+}
+
+.layout-header {
+    padding: 15px;
+    border-bottom: 1px solid #e8e8e8;
+    display: flex;
+    justify-content: space-between;
+}
+
+.layout-title {
+    font-weight: bold;
+}
+
+.layout-close {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    line-height: 19px;
+    border-radius: 50%;
+    background: #000;
+    color: #fff;
+    transform: rotate(45deg);
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.layout-container {
+    padding: 15px;
+}
+
+.layui-input-block {
+    margin: 0;
+}
+
+.layui-textarea {
+    resize: none;
+}
+
+.layout-footer {
+    text-align: center;
+    padding: 10px 0;
+    border-top: 1px solid #e8e8e8;
+}
+
+.layui-form-label {
+    padding: 9px 11px;
+    text-align: left;
+}
+
+.layui-input-block {
+    padding: 0 5px;
+}
+
+.layui-input,
+.layui-btn {
+    border-radius: 19px;
+}
+
+input[name=father] {
+    width: 10%;
+    float: right;
+    margin-right: 10px;
+}
+
+/* the end */

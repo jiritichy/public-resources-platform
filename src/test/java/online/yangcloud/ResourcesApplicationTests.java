@@ -1,6 +1,8 @@
 package online.yangcloud;
 
 import com.alibaba.fastjson.JSONObject;
+import online.yangcloud.entity.PageInfo;
+import online.yangcloud.entity.Resource;
 import online.yangcloud.entity.ServiceIp;
 import online.yangcloud.mapper.ResourceMapper;
 import online.yangcloud.mapper.ServiceIpMapper;
@@ -17,7 +19,10 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @SpringBootTest
 class ResourcesApplicationTests {
@@ -46,7 +51,7 @@ class ResourcesApplicationTests {
     }
 
     @Test
-    void demo1() {
+    void demo() {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         String pwd = "123456";
         String newPwd = encoder.encode(pwd);
@@ -90,6 +95,63 @@ class ResourcesApplicationTests {
         String region = StringEscapeUtils.escapeSql(data.getString("region"));
         String city = StringEscapeUtils.escapeSql(data.getString("city"));
         return country + "-" + region + "-" + city;
+    }
+
+    @Test
+    void demo1() {
+        Map<String, Object> map = findAll(16, null);
+    }
+
+    private Map<String, Object> findAll(Integer fatherId, PageInfo<Resource> info) {
+        Map<String, Object> map = new HashMap<>(2);
+        if (fatherId == 0) {
+            map.put("path", "当前定位：/");
+            map.put("resource", resourceMapper.findAllByFather(fatherId));
+        } else {
+            Resource resource = resourceMapper.findByChildren(fatherId);
+            List<String> path = new ArrayList<>();
+//            String path = resource.getName() + "/";
+            path.add(resource.getName());
+            path.add("/");
+            int father = resource.getFather();
+            while (father != 0) {
+                Resource newResource = resourceMapper.findByChildren(father);
+//                path = newResource.getName() + "/" + path;
+                path.add(0, "/");
+                path.add(0, newResource.getName());
+                father = newResource.getFather();
+            }
+            String resourcesPath = path.toString();
+            resourcesPath = resourcesPath.substring(1, resourcesPath.length() - 1).replace(",", "");
+            System.out.println(resourcesPath);
+            map.put("path", "当前定位：/" + path.toString());
+            map.put("resource", resourceMapper.findAllByFather(resource.getChildren()));
+        }
+        return map;
+    }
+
+    @Test
+    void setResourceCount() {
+        int[] ids = {0, 8, 1, 2, 6, 3, 4, 9, 15, 16, 17};
+        for (int id : ids) {
+            List<Resource> resources = resourceMapper.findAllByFather(id);
+            for (Resource resource : resources) {
+                resource.setCount(0);
+                resourceMapper.updateResource(resource);
+            }
+        }
+    }
+
+    @Test
+    void setResourcesSort() {
+        int[] ids = {0, 8, 1, 2, 6, 3, 4, 9, 15, 16, 17};
+        for (int id : ids) {
+            List<Resource> resources = resourceMapper.findAllByFather(id);
+            for (Resource resource : resources) {
+                resource.setCount(0);
+                resourceMapper.updateResource(resource);
+            }
+        }
     }
 
 }

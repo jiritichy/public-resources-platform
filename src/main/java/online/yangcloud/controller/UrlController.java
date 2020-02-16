@@ -46,17 +46,17 @@ public class UrlController {
 
     @GetMapping(value = "/admin")
     public String father() {
-        return "redirect:/admin/0";
+        return "redirect:/admin/resources";
     }
 
-    @GetMapping(value = "/admin/{fatherId}")
-    public String edit(@PathVariable("fatherId") int fatherId, Model model) {
-        model.addAttribute("fatherId", fatherId);
+    @GetMapping(value = "/admin/resources")
+    public String admin() {
         return "admin";
     }
 
-    @GetMapping(value = "/ip")
-    public String ips() {
+    @GetMapping(value = "/admin/ip")
+    public String ip() {
         return "ip";
     }
+
 }

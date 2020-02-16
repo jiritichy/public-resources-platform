@@ -22,5 +22,7 @@ public class Resource {
     private Integer children;
     private String comment;
     private Date ctime;
-    private Date utime;
+    private Integer count;
+    private Integer sort;
+
 }

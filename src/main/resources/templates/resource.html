@@ -6,11 +6,12 @@
     <meta charset="UTF-8">
     <title>资源共享平台</title>
     <link rel="icon" type="image/x-icon" href="/img/favicon.ico"/>
-    <link rel="stylesheet" href="/layui2_5_6/css/layui.css">
+    <link rel="stylesheet" href="https://www.layuicdn.com/layui/css/layui.css">
+    <link rel="stylesheet" href="/css/public.css">
     <link rel="stylesheet" href="/css/resource.css">
 </head>
 <body>
-<section id="container">
+<div id="container">
     <div class="layui-container">
         <div class="layui-row">
             <p class="layui-col-lg12 title">终于等到你了，欢迎使用资源共享平台</p>
@@ -18,8 +19,8 @@
         </div>
         <div class="layui-row resources-list"></div>
     </div>
-</section>
-<section id="detail-layout">
+</div>
+<div id="detail-layout">
     <div class="layout-background display-none" onclick="hideLayout($('#detail-layout'))"></div>
     <div class="layout-box display-none">
         <div class="layout-header">
@@ -39,21 +40,21 @@
             </button>
         </div>
     </div>
-</section>
+</div>
 <span class="email">站长联系方式：903103398@qq.com</span>
 <footer>
-    <script src="/js/jquery.min.js"></script>
-    <script src="/layui2_5_6/layui.js"></script>
-    <script src="/js/public.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://www.layuicdn.com/layui/layui.js"></script>
+    <script src="/js/resources.js"></script>
     <script th:inline="javascript">
         /*<![CDATA[*/
 
-        let layoutTimeout = 300,
-            fatherId = 0;
+        let fatherId = 0;
 
         function loadResourceItem() {
             fatherId = [[${fatherId}]];
-            $.get(resourceUrl + '/findByFatherId/' + fatherId, function (resources) {
+            $.get(`${resourceUrl}/findByFatherId/${fatherId}`, function (resources) {
                 let path = resources.path,
                     items = resources.resource,
                     itemHtml = '';
@@ -77,10 +78,11 @@
                 link = elem.find('.item-link').text(),
                 type = elem.find('.item-type').text(),
                 name = elem.find('.item-content').text();
+            $.post(`${resourceUrl}/updateCount/${id}`);
             switch (type) {
                 case 'file':
                     $('.header-title').html(name);
-                    $.get('/resources/findById/' + id, (result) => {
+                    $.get(`${resourcesUrl}/findById/${id}`, (result) => {
                         $('.layout-title').html(result.name);
                         $('#detail-layout textarea[name=link]').val(result.link);
                         showLayout($('#detail-layout'));
@@ -90,12 +92,12 @@
                     window.open(link);
                     break;
                 case 'folder':
-                    $.get(resourceUrl + '/findById/' + id, (resource) => {
+                    $.get(`${resourceUrl}/findById/${id}`, (resource) => {
                         changePage(resource.children);
                     });
                     break;
                 case 'back':
-                    $.get('/resources/findByChildren/' + fatherId, (resource) => {
+                    $.get(`${resourceUrl}/findByChildren/${fatherId}`, (resource) => {
                         changePage(resource.father);
                     });
                     break;
@@ -103,11 +105,12 @@
         }
 
         function changePage(fatherId) {
-            window.location.href = '/' + fatherId;
+            window.location.href = `/${fatherId}`;
         }
 
         function resourceItem(item) {
-            let type = item.type === 'link' ? '/img/link.png' : (item.type === 'file' ? '/img/file.png' : '/img/folder.png'),
+            let type = item.type === 'link' ? '/img/link.png' :
+                (item.type === 'file' ? '/img/file.png' : '/img/folder.png'),
                 link = item.type === 'link' ? '<span class="item-link display-none">' + item.link + '</span>' : '';
             return '<div class="layui-col-lg3 layui-col-xs12 item-box">' +
                 '<a class="resource-item" href="javascript:void(0)" onclick="resourceAddr($(this))">' +
