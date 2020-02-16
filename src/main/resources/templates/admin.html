@@ -41,11 +41,32 @@
                     <a class="layui-btn layui-btn-normal layui-btn-radius" lay-event="addLink">新建链接</a>
                 </script>
                 <script type="text/html" id="resources-tool">
+                    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="detail">详情</a>
                     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">编辑</a>
                     <a class="layui-btn layui-btn-xs" lay-event="del">删除</a>
                 </script>
             </div>
         </div>
+    </div>
+</div>
+<div id="folder-detail-layout">
+    <div class="layout-background display-none" onclick="hideLayout($('#folder-detail-layout'))"></div>
+    <div class="layout-box display-none">
+        <form action="javascript:void(0)" class="layui-form">
+            <div class="layout-header">
+                <span class="layout-title"></span>
+                <span class="layout-close" onclick="hideLayout($('#folder-detail-layout'))"></span>
+            </div>
+            <div class="layout-container">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">文件夹名</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="name" title="" readonly="readonly"
+                               autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+        </form>
     </div>
 </div>
 <div id="detail-layout">
@@ -54,10 +75,18 @@
         <form action="javascript:void(0)" class="layui-form">
             <div class="layout-header">
                 <span class="layout-title"></span>
-                <span class="layout-close" onclick="hideLayout($('#detail-layout'))">+</span>
+                <span class="layout-close" onclick="hideLayout($('#detail-layout'))"></span>
             </div>
             <div class="layout-container">
-                <div class="layui-form-item layui-form-text">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">资源名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="name" title="" readonly="readonly"
+                               autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">资源链接内容</label>
                     <div class="layui-input-block">
                         <textarea name="link" class="layui-textarea" title="" readonly="readonly"></textarea>
                     </div>
@@ -72,7 +101,7 @@
         <form action="javascript:void(0)" class="layui-form">
             <div class="layout-header">
                 <span class="layout-title"></span>
-                <span class="layout-close" onclick="hideLayout($('#edit-layout'))">+</span>
+                <span class="layout-close" onclick="hideLayout($('#edit-layout'))"></span>
             </div>
             <div class="layout-container">
                 <div class="layui-form-item display-none">
@@ -115,7 +144,7 @@
         <form action="javascript:void(0)" class="layui-form">
             <div class="layout-header">
                 <span class="layout-title">新建目录</span>
-                <span class="layout-close" onclick="hideLayout($('#create-dir'))">+</span>
+                <span class="layout-close" onclick="hideLayout($('#create-dir'))"></span>
             </div>
             <div class="layout-container">
                 <div class="layui-form-item">
@@ -143,7 +172,7 @@
         <form action="javascript:void(0)" class="layui-form">
             <div class="layout-header">
                 <span class="layout-title">新建文件</span>
-                <span class="layout-close" onclick="hideLayout($('#create-file'))">+</span>
+                <span class="layout-close" onclick="hideLayout($('#create-file'))"></span>
             </div>
             <div class="layout-container">
                 <div class="layui-form-item">
@@ -177,7 +206,7 @@
         <form action="javascript:void(0)" class="layui-form">
             <div class="layout-header">
                 <span class="layout-title">新建链接</span>
-                <span class="layout-close" onclick="hideLayout($('#create-link'))">+</span>
+                <span class="layout-close" onclick="hideLayout($('#create-link'))"></span>
             </div>
             <div class="layout-container">
                 <div class="layui-form-item">
@@ -211,168 +240,6 @@
     <script src="https://www.layuicdn.com/layui/layui.js"></script>
     <script src="/js/resources.js"></script>
     <script src="/js/admin.js"></script>
-    <!--    <script src="/js/resources.js"></script>-->
-    <!--    <script th:inline="javascript">-->
-    <!--        /*<![CDATA[*/-->
-
-    <!--        let layoutTimeout = 300,-->
-    <!--            fatherId = 0,-->
-    <!--            index = -1;-->
-
-    <!--        function loadResourceItem() {-->
-    <!--            fatherId = [[${fatherId}]];-->
-    <!--            $.get(resourceUrl + '/findByFatherId/' + fatherId, (resources) => {-->
-    <!--                let path = resources.path,-->
-    <!--                    items = resources.resource,-->
-    <!--                    resourceHtml = '',-->
-    <!--                    resourcesList = $('.resources-list');-->
-    <!--                $('.current-address').html(path);-->
-    <!--                $.each(items, (i, v) => {-->
-    <!--                    resourceHtml += resourceItem(v);-->
-    <!--                });-->
-    <!--                resourcesList.html(resourceHtml);-->
-    <!--                if (fatherId !== 0) {-->
-    <!--                    let back = {id: fatherId, name: '返回上一级', type: 'back'};-->
-    <!--                    resourcesList.prepend(resourceItem(back));-->
-    <!--                }-->
-    <!--            });-->
-    <!--            loadLayuiInfo();-->
-    <!--        }-->
-
-    <!--        loadResourceItem();-->
-
-    <!--        function resourceAddr(elem) {-->
-    <!--            let id = elem.find('.item-id').text(),-->
-    <!--                link = elem.find('.item-link').text(),-->
-    <!--                type = elem.find('.item-type').text(),-->
-    <!--                name = elem.find('.item-content').text();-->
-    <!--            switch (type) {-->
-    <!--                case 'file':-->
-    <!--                    $('.header-title').html(name);-->
-    <!--                    $.get('/resources/findById/' + id, (result) => {-->
-    <!--                        $('#resource-detail-layout .layout-title').html(result.name);-->
-    <!--                        $('#resource-detail-layout textarea[name=link]').val(result.link);-->
-    <!--                        showLayout($('#resource-detail-layout'));-->
-    <!--                    });-->
-    <!--                    break;-->
-    <!--                case 'link':-->
-    <!--                    window.open(link);-->
-    <!--                    break;-->
-    <!--                case 'folder':-->
-    <!--                    $.get(resourceUrl + '/findById/' + id, (resource) => {-->
-    <!--                        changePage(resource.children);-->
-    <!--                    });-->
-    <!--                    break;-->
-    <!--                case 'back':-->
-    <!--                    $.get('/resources/findByChildren/' + id, (resource) => {-->
-    <!--                        console.info(resource);-->
-    <!--                        changePage(resource.father);-->
-    <!--                    });-->
-    <!--                    break;-->
-    <!--            }-->
-    <!--        }-->
-
-    <!--        function editResource(elem) {-->
-    <!--            let resourceId = elem.parents('.item-box').find('.item-id').text();-->
-    <!--            index = elem.parents('.item-box').index();-->
-    <!--            $.get(resourceUrl + '/findById/' + parseInt(resourceId), (resource) => {-->
-    <!--                $('#resource-edit-layout input[name=id]').val(resource.id);-->
-    <!--                $('#resource-edit-layout input[name=name]').val(resource.name);-->
-    <!--                $('#resource-edit-layout textarea[name=link]').val(resource.link);-->
-    <!--                showLayout($('#resource-edit-layout'));-->
-    <!--            });-->
-    <!--        }-->
-
-    <!--        function updateResource() {-->
-    <!--            $.post(resourceUrl + '/updateResource?' + $('#resource-edit-layout form').serialize(), (result) => {-->
-    <!--                if (result === 1) {-->
-    <!--                    alertInfo('修改成功');-->
-    <!--                    $.get(resourceUrl + '/findById/' + $('#resource-edit-layout input[name=id]').val(), (resource) => {-->
-    <!--                        let itemBox = $('.item-box');-->
-    <!--                        itemBox.eq(index).find('.item-id').html(resource.id);-->
-    <!--                        itemBox.eq(index).find('.item-link').html(resource.link);-->
-    <!--                        itemBox.eq(index).find('.item-content').html(resource.name);-->
-    <!--                        index = -1;-->
-    <!--                    });-->
-    <!--                    hideLayout($('#resource-edit-layout'));-->
-    <!--                    $('#resource-edit-layout form').find('input, textarea').val('');-->
-    <!--                    window.location.reload();-->
-    <!--                } else {-->
-    <!--                    alertInfo('修改失败');-->
-    <!--                }-->
-    <!--            });-->
-    <!--        }-->
-
-    <!--        function delResource(elem) {-->
-    <!--            let id = parseInt(elem.parents('.item-box').find('.item-id').text()),-->
-    <!--                type = elem.parents('.item-box').find('.item-type').text();-->
-    <!--            $.post(resourceUrl + '/delResource/' + id + '/' + type, (result) => {-->
-    <!--                if (result > 0) {-->
-    <!--                    alertInfo('删除成功');-->
-    <!--                    elem.parents('.item-box').remove();-->
-    <!--                } else {-->
-    <!--                    alertInfo('删除失败');-->
-    <!--                }-->
-    <!--            });-->
-    <!--        }-->
-
-    <!--        function loadLayuiInfo() {-->
-    <!--            layui.use(['form', 'tree'], () => {-->
-    <!--                let form = layui.form,-->
-    <!--                    tree = layui.tree;-->
-    <!--                form.on('submit(move)', elem => {-->
-    <!--                    let structure = $('#structure');-->
-    <!--                    if (structure.css('display') === 'block')-->
-    <!--                        structure.fadeOut();-->
-    <!--                    else-->
-    <!--                        structure.fadeIn();-->
-    <!--                });-->
-    <!--                $.get(resourceUrl + '/getTreeStructure', data => {-->
-    <!--                    tree.render({-->
-    <!--                        elem: '#structure',-->
-    <!--                        data: data,-->
-    <!--                        click: function (obj) {-->
-    <!--                            let data = obj.data;-->
-    <!--                            $('input[name=father]').val(data.id);-->
-    <!--                            $('.resource-name').html(data.title);-->
-    <!--                            $('#structure').fadeOut();-->
-    <!--                        }-->
-    <!--                    });-->
-    <!--                });-->
-    <!--            });-->
-    <!--        }-->
-
-    <!--        function changePage(fatherId) {-->
-    <!--            window.location.href = '/admin/' + fatherId;-->
-    <!--        }-->
-
-    <!--        function resourceItem(item) {-->
-    <!--            let type = item.type === 'link' ? '/img/link.png' : (item.type === 'file' ? '/img/file.png' : '/img/folder.png'),-->
-    <!--                link = item.type === 'link' ? '<span class="item-link display-none">' + item.link + '</span>' : '';-->
-    <!--            return '<div class="layui-col-lg3 layui-col-xs12 item-box">' +-->
-    <!--                '<a class="resource-item" href="javascript:void(0)" onclick="resourceAddr($(this))">' +-->
-    <!--                '<span class="item-id display-none">' + item.id + '</span>' +-->
-    <!--                '<span class="item-type display-none">' + item.type + '</span>' + link +-->
-    <!--                '<div class="item-icon"><img src="' + type + '" alt=""/></div>' +-->
-    <!--                '<div class="item-content">' + item.name + '</div>' +-->
-    <!--                '</a>' +-->
-    <!--                '<div class="item-action">' +-->
-    <!--                '<a href="javascript:void(0)" class="layui-col-lg-offset2 layui-col-lg4 layui-col-xs-offset2 layui-col-xs4 edit"' +-->
-    <!--                ' onclick="editResource($(this))">编辑</a>' +-->
-    <!--                '<a href="javascript:void(0)" class="layui-col-lg4 layui-col-xs4 delete" onclick="delResource($(this))">删除</a>' +-->
-    <!--                '<span class="clear-float"></span>' +-->
-    <!--                '</div>' +-->
-    <!--                '</div>';-->
-    <!--        }-->
-
-    <!--        function alertInfo(info) {-->
-    <!--            layui.use('form', () => {-->
-    <!--                layui.layer.msg(info);-->
-    <!--            })-->
-    <!--        }-->
-
-    <!--        /*]]>*/-->
-    <!--    </script>-->
 </footer>
 </body>
 </html>

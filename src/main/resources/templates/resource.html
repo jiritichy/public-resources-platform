@@ -25,12 +25,13 @@
     <div class="layout-box display-none">
         <div class="layout-header">
             <span class="layout-title"></span>
-            <span class="layout-close" onclick="hideLayout($('#detail-layout'))">+</span>
+            <span class="layout-close" onclick="hideLayout($('#detail-layout'))"></span>
         </div>
         <div class="layout-container">
             <div class="layui-form-item layui-form-text">
                 <div class="layui-input-block">
-                    <textarea name="link" class="layui-textarea" readonly="readonly" title=""></textarea>
+                    <textarea name="link" class="layui-textarea" readonly="readonly" title=""
+                              style="min-height: 300px"></textarea>
                 </div>
             </div>
         </div>
@@ -50,7 +51,8 @@
     <script th:inline="javascript">
         /*<![CDATA[*/
 
-        let fatherId = 0;
+        let fatherId = 0,
+            resourcesUrl = '/resources';
 
         function loadResourceItem() {
             fatherId = [[${fatherId}]];

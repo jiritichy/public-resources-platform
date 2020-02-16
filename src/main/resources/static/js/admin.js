@@ -3,8 +3,7 @@ let resourcesUrl = '/resources';
 function loadResources(fatherId) {
     loadResourceForm();
     if (fatherId === undefined) {
-        let pathA = $('.box-title').find('a');
-        fatherId = pathA.eq(pathA.length - 1).attr('title');
+        fatherId = $('.box-title a:last-child').attr('title');
     }
     $.get(`/resources/findByFatherId/${fatherId}`, res => {
         res = res.resource;
@@ -79,6 +78,18 @@ function loadItemTable(items) {
             let event = elem.event,
                 data = elem.data;
             switch (event) {
+                case 'detail':
+                    if (data.type === 'folder') {
+                        $('#folder-detail-layout .layout-title').text(data.id);
+                        $('#folder-detail-layout input[name=name]').val(data.name);
+                        showLayout($('#folder-detail-layout'));
+                    } else {
+                        $('#detail-layout .layout-title').text(data.id);
+                        $('#detail-layout input[name=name]').val(data.name);
+                        $('#detail-layout textarea[name=link]').val(data.link);
+                        showLayout($('#detail-layout'));
+                    }
+                    break;
                 case 'edit':
                     if (data.type === 'folder') $('#edit-layout .layui-form-item:eq(2)').addClass('display-none');
                     else $('#edit-layout .layui-form-item:eq(2)').removeClass('display-none');
@@ -134,7 +145,7 @@ function loadResourceForm() {
                 layer.msg('目录名不能为空!');
             } else {
                 field['type'] = 'folder';
-                field['father'] = $('.box-title').find('a').eq(0).attr('title');
+                field['father'] = $('.box-title a:last-child').attr('title');
                 $.post(`${resourcesUrl}/addResource`, field, res => {
                     res = res > 0 ? '目录创建成功!' : '目录创建失败!';
                     layer.msg(res);
@@ -151,7 +162,7 @@ function loadResourceForm() {
                 layer.msg('文件内容不能为空!');
             } else {
                 field['type'] = 'file';
-                field['father'] = $('.box-title').find('a').eq(0).attr('title');
+                field['father'] = $('.box-title a:last-child').attr('title');
                 $.post(`${resourcesUrl}/addResource`, field, res => {
                     res = res > 0 ? '文件创建成功!' : '文件创建失败!';
                     layer.msg(res);
@@ -168,7 +179,7 @@ function loadResourceForm() {
                 layer.msg('链接内容不能为空!');
             } else {
                 field['type'] = 'link';
-                field['father'] = $('.box-title').find('a').eq(0).attr('title');
+                field['father'] = $('.box-title a:last-child').attr('title');
                 $.post(`${resourcesUrl}/addResource`, field, res => {
                     res = res > 0 ? '链接创建成功!' : '链接创建失败!';
                     layer.msg(res);
@@ -186,7 +197,6 @@ function loadResourceForm() {
         });
         form.on('submit(edit)', elem => {
             let field = elem.field;
-            console.info(field);
             $.post(`${resourcesUrl}/updateResource`, field, res => {
                 res = res > 0 ? '资源信息修改成功!' : '资源信息修改失败!';
                 layer.msg(res);
