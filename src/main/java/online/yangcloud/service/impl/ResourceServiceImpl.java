@@ -65,6 +65,9 @@ public class ResourceServiceImpl implements ResourceService {
 
     @Override
     public int updateResource(Resource resource) {
+        if (!resource.getFather().equals(resourceMapper.findResourceById(resource.getId()).getFather())) {
+            resource.setSort(resourceMapper.findMaxSortByFather(resource.getFather()) + 1);
+        }
         return resourceMapper.updateResource(resource);
     }
 

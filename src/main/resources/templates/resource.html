@@ -80,7 +80,9 @@
                 link = elem.find('.item-link').text(),
                 type = elem.find('.item-type').text(),
                 name = elem.find('.item-content').text();
-            $.post(`${resourceUrl}/updateCount/${id}`);
+            if (type !== 'folder') {
+                $.post(`${resourceUrl}/updateCount/${id}`);
+            }
             switch (type) {
                 case 'file':
                     $('.header-title').html(name);
