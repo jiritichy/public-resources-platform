@@ -51,7 +51,7 @@ function loadItemTable(items) {
             rowDrag: {
                 trigger: '.layui-icon-snowflake',
                 done: function (obj) {
-                    let father = $('.box-title').find('a').eq(0).attr('title');
+                    let father = $('.box-title a:last-child').attr('title');
                     $.post(`${resourcesUrl}/rankResources/${father}/${obj.oldIndex}/${obj.newIndex}`, () => {
                         loadResources();
                     })
@@ -63,6 +63,11 @@ function loadItemTable(items) {
         });
         table.on('toolbar(resources)', elem => {
             switch (elem.event) {
+                case 'return':
+                    $('.box-title a:last-child').prev('span').remove();
+                    $('.box-title a:nth-last-child(1)').remove();
+                    loadResources();
+                    break;
                 case 'addDir':
                     showLayout($('#create-dir'));
                     break;
