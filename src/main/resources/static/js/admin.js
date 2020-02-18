@@ -64,9 +64,12 @@ function loadItemTable(items) {
         table.on('toolbar(resources)', elem => {
             switch (elem.event) {
                 case 'return':
-                    $('.box-title a:last-child').prev('span').remove();
-                    $('.box-title a:nth-last-child(1)').remove();
-                    loadResources();
+                    let aLength = $('.box-title a').length;
+                    if (aLength > 1) {
+                        $('.box-title a:last-child').prev('span').remove();
+                        $('.box-title a:nth-last-child(1)').remove();
+                        loadResources();
+                    }
                     break;
                 case 'addDir':
                     showLayout($('#create-dir'));
