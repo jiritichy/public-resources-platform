@@ -29,7 +29,8 @@ public class ResourceServiceImpl implements ResourceService {
 
     @Override
     public Resource addResource(Resource resource) {
-        resource.setChildren(resourceMapper.findMaxChildrenNumber() + 1);
+        if (resource.getType().equals(GlobalConstant.FOLDER))
+            resource.setChildren(resourceMapper.findMaxChildrenNumber() + 1);
         resource.setCtime(new Date());
         resource.setCount(0);
         Integer sort = resourceMapper.findMaxSortByFather(resource.getFather());
@@ -65,7 +66,23 @@ public class ResourceServiceImpl implements ResourceService {
 
     @Override
     public int updateResource(Resource resource) {
-        if (!resource.getFather().equals(resourceMapper.findResourceById(resource.getId()).getFather())) {
+        Integer newFather = resource.getFather();
+        resource = resourceMapper.findResourceById(resource.getId());
+        if (!newFather.equals(resource.getFather())) {
+            int oldFather = resource.getFather();
+            logger.info("id {}, newFather {}, oldFather {}", resource.getId(), newFather, oldFather);
+            List<Resource> resources = resourceMapper.findAllByFather(oldFather);
+            List<Resource> newResources = new ArrayList<>();
+            for (int i = resource.getSort() + 1; i < resources.size(); i++) {
+                Resource item = resources.get(i);
+                item.setSort(i - 1);
+                newResources.add(item);
+            }
+            if (newResources.size() != 0) {
+                int result = resourceMapper.updateResources(newResources);
+                System.out.println("成功 " + result + " 条");
+            }
+            resource.setFather(newFather);
             resource.setSort(resourceMapper.findMaxSortByFather(resource.getFather()) + 1);
         }
         return resourceMapper.updateResource(resource);

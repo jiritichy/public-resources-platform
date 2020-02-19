@@ -86,4 +86,16 @@
         limit 1
     </select>
 
+    <update id="updateResources" parameterType="list">
+        update resources
+        set sort = 
+        <foreach collection="list" item="item" index="index" separator=" " open="case id" close="end">
+            when #{item.id} then #{item.sort}
+        </foreach>
+        where id in 
+        <foreach collection="list" item="item" index="index" separator="," open="(" close=")">
+            #{item.id}
+        </foreach>
+    </update>
+
 </mapper>

@@ -132,8 +132,7 @@ class ResourcesApplicationTests {
 
     @Test
     void setResourceCount() {
-        int[] ids = {0, 8, 1, 2, 6, 3, 4, 9, 15, 16, 17};
-        for (int id : ids) {
+        for (int id = 0; id <= 13; id++) {
             List<Resource> resources = resourceMapper.findAllByFather(id);
             for (Resource resource : resources) {
                 resource.setCount(0);
@@ -144,11 +143,11 @@ class ResourcesApplicationTests {
 
     @Test
     void setResourcesSort() {
-        int[] ids = {0, 8, 1, 2, 6, 3, 4, 9, 15, 16, 17};
-        for (int id : ids) {
+        for (int id = 0; id <= 13; id++) {
             List<Resource> resources = resourceMapper.findAllByFather(id);
-            for (Resource resource : resources) {
-                resource.setCount(0);
+            for (int i = 0; i < resources.size(); i++) {
+                Resource resource = resources.get(i);
+                resource.setSort(i);
                 resourceMapper.updateResource(resource);
             }
         }

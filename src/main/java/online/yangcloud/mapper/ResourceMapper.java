@@ -32,4 +32,6 @@ public interface ResourceMapper {
 
     Integer findMaxSortByFather(@Param("father") Integer father);
 
+    int updateResources(List<Resource> resources);
+
 }
