@@ -20,7 +20,7 @@ public interface ResourceMapper {
 
     int updateResource(Resource resource);
 
-    List<Resource> findAllByFather(@Param("father") Integer father);
+    List<Resource> findAllByFather(@Param("father") Integer father, @Param("name") String name);
 
     Resource findResourceById(@Param("id") int id);
 

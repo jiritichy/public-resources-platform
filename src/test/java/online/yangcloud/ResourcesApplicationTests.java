@@ -19,7 +19,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -104,53 +103,61 @@ class ResourcesApplicationTests {
 
     private Map<String, Object> findAll(Integer fatherId, PageInfo<Resource> info) {
         Map<String, Object> map = new HashMap<>(2);
-        if (fatherId == 0) {
-            map.put("path", "当前定位：/");
-            map.put("resource", resourceMapper.findAllByFather(fatherId));
-        } else {
-            Resource resource = resourceMapper.findByChildren(fatherId);
-            List<String> path = new ArrayList<>();
-//            String path = resource.getName() + "/";
-            path.add(resource.getName());
-            path.add("/");
-            int father = resource.getFather();
-            while (father != 0) {
-                Resource newResource = resourceMapper.findByChildren(father);
-//                path = newResource.getName() + "/" + path;
-                path.add(0, "/");
-                path.add(0, newResource.getName());
-                father = newResource.getFather();
-            }
-            String resourcesPath = path.toString();
-            resourcesPath = resourcesPath.substring(1, resourcesPath.length() - 1).replace(",", "");
-            System.out.println(resourcesPath);
-            map.put("path", "当前定位：/" + path.toString());
-            map.put("resource", resourceMapper.findAllByFather(resource.getChildren()));
-        }
+//        if (fatherId == 0) {
+//            map.put("path", "当前定位：/");
+//            map.put("resource", resourceMapper.findAllByFather(fatherId));
+//        } else {
+//            Resource resource = resourceMapper.findByChildren(fatherId);
+//            List<String> path = new ArrayList<>();
+////            String path = resource.getName() + "/";
+//            path.add(resource.getName());
+//            path.add("/");
+//            int father = resource.getFather();
+//            while (father != 0) {
+//                Resource newResource = resourceMapper.findByChildren(father);
+////                path = newResource.getName() + "/" + path;
+//                path.add(0, "/");
+//                path.add(0, newResource.getName());
+//                father = newResource.getFather();
+//            }
+//            String resourcesPath = path.toString();
+//            resourcesPath = resourcesPath.substring(1, resourcesPath.length() - 1).replace(",", "");
+//            System.out.println(resourcesPath);
+//            map.put("path", "当前定位：/" + path.toString());
+//            map.put("resource", resourceMapper.findAllByFather(resource.getChildren()));
+//        }
         return map;
     }
 
     @Test
     void setResourceCount() {
-        for (int id = 0; id <= 13; id++) {
-            List<Resource> resources = resourceMapper.findAllByFather(id);
-            for (Resource resource : resources) {
-                resource.setCount(0);
-                resourceMapper.updateResource(resource);
-            }
-        }
+//        for (int id = 0; id <= 13; id++) {
+//            List<Resource> resources = resourceMapper.findAllByFather(id);
+//            for (Resource resource : resources) {
+//                resource.setCount(0);
+//                resourceMapper.updateResource(resource);
+//            }
+//        }
     }
 
     @Test
     void setResourcesSort() {
-        for (int id = 0; id <= 13; id++) {
-            List<Resource> resources = resourceMapper.findAllByFather(id);
-            for (int i = 0; i < resources.size(); i++) {
-                Resource resource = resources.get(i);
-                resource.setSort(i);
-                resourceMapper.updateResource(resource);
-            }
-        }
+//        for (int id = 0; id <= 13; id++) {
+//            List<Resource> resources = resourceMapper.findAllByFather(id);
+//            for (int i = 0; i < resources.size(); i++) {
+//                Resource resource = resources.get(i);
+//                resource.setSort(i);
+//                resourceMapper.updateResource(resource);
+//            }
+//        }
+    }
+
+    @Test
+    void findByKeywords() {
+        String keywords = "李宏毅集齐学习视频";
+        System.out.println(keywords);
+        keywords = keywords.replace("", "%");
+        System.out.println(keywords);
     }
 
 }

@@ -55,7 +55,7 @@ public class ResourceServiceImpl implements ResourceService {
     private void delFile(Resource resource) {
         if (GlobalConstant.FOLDER.equalsIgnoreCase(resource.getType())) {
             if (!StringUtils.isEmpty(resource.getChildren())) {
-                List<Resource> resources = resourceMapper.findAllByFather(resource.getChildren());
+                List<Resource> resources = resourceMapper.findAllByFather(resource.getChildren(), null);
                 for (Resource item : resources) {
                     delFile(item);
                 }
@@ -71,7 +71,7 @@ public class ResourceServiceImpl implements ResourceService {
         if (!newFather.equals(resource.getFather())) {
             int oldFather = resource.getFather();
             logger.info("id {}, newFather {}, oldFather {}", resource.getId(), newFather, oldFather);
-            List<Resource> resources = resourceMapper.findAllByFather(oldFather);
+            List<Resource> resources = resourceMapper.findAllByFather(oldFather, null);
             List<Resource> newResources = new ArrayList<>();
             for (int i = resource.getSort() + 1; i < resources.size(); i++) {
                 Resource item = resources.get(i);
@@ -89,11 +89,16 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
-    public Map<String, Object> findAll(Integer fatherId) {
+    public Map<String, Object> findAll(Integer fatherId, String name) {
+        if (!StringUtils.isEmpty(name)) name = name.replace("", "%");
+        if (StringUtils.isEmpty(name)) name = null;
         Map<String, Object> map = new HashMap<>(2);
         if (fatherId == 0) {
             map.put("path", "当前定位：/");
-            map.put("resource", resourceMapper.findAllByFather(fatherId));
+            if (!StringUtils.isEmpty(name))
+                map.put("resource", resourceMapper.findAllByFather(null, name));
+            else
+                map.put("resource", resourceMapper.findAllByFather(fatherId, name));
         } else {
             Resource resource = resourceMapper.findByChildren(fatherId);
             List<String> path = new ArrayList<>();
@@ -109,7 +114,10 @@ public class ResourceServiceImpl implements ResourceService {
             String resourcesPath = path.toString();
             resourcesPath = resourcesPath.substring(1, resourcesPath.length() - 1).replace(", ", "");
             map.put("path", "当前定位：/" + resourcesPath);
-            map.put("resource", resourceMapper.findAllByFather(resource.getChildren()));
+            if (!StringUtils.isEmpty(name))
+                map.put("resource", resourceMapper.findAllByFather(null, name));
+            else
+                map.put("resource", resourceMapper.findAllByFather(resource.getChildren(), name));
         }
         return map;
     }
@@ -138,7 +146,7 @@ public class ResourceServiceImpl implements ResourceService {
             resourcesMap.put("children", new ArrayList<>());
             resultMap.add(resourcesMap);
         }
-        List<Resource> resources = resourceMapper.findAllByFather(father);
+        List<Resource> resources = resourceMapper.findAllByFather(father, null);
         for (Resource resource : resources) {
             if (GlobalConstant.FOLDER.equals(resource.getType())) {
                 Map<String, Object> resourcesMap = new HashMap<>();
@@ -156,7 +164,7 @@ public class ResourceServiceImpl implements ResourceService {
     public int rankResources(int father, int oldIndex, int newIndex) {
         Resource resource;
         int res;
-        List<Resource> resources = resourceMapper.findAllByFather(father);
+        List<Resource> resources = resourceMapper.findAllByFather(father, null);
         if (oldIndex > newIndex) {
             resource = resources.get(oldIndex);
             resource.setSort(newIndex);

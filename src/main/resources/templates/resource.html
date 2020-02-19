@@ -14,8 +14,16 @@
 <div id="container">
     <div class="layui-container">
         <div class="layui-row">
-            <p class="layui-col-lg12 title">终于等到你了，欢迎使用资源共享平台</p>
-            <span class="current-address"></span>
+            <div class="layui-col-lg12 title">终于等到你了，欢迎使用资源共享平台</div>
+            <div class="layui-col-lg12">
+                <div class="action">
+                    <div class="current-address"></div>
+                    <div class="search">
+                        <input type="text" name="keyword" class="layui-input" title="" autocomplete="off">
+                        <img src="/img/search.png" alt="search">
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="layui-row resources-list"></div>
     </div>
@@ -54,9 +62,12 @@
         let fatherId = 0,
             resourcesUrl = '/resources';
 
-        function loadResourceItem() {
+        function loadResourceItem(name) {
             fatherId = [[${fatherId}]];
-            $.get(`${resourceUrl}/findByFatherId/${fatherId}`, function (resources) {
+            if (name === undefined) {
+                name = '';
+            }
+            $.get(`${resourceUrl}/findByFatherId/${fatherId}`, {name: name}, function (resources) {
                 let path = resources.path,
                     items = resources.resource,
                     itemHtml = '';
@@ -75,14 +86,16 @@
 
         loadResourceItem();
 
+        $('.search input[name=keyword]').bind('input', function() {
+            loadResourceItem($(this).val());
+        });
+
         function resourceAddr(elem) {
             let id = elem.find('.item-id').text(),
                 link = elem.find('.item-link').text(),
                 type = elem.find('.item-type').text(),
                 name = elem.find('.item-content').text();
-            if (type !== 'folder') {
-                $.post(`${resourceUrl}/updateCount/${id}`);
-            }
+            $.post(`${resourceUrl}/updateCount/${id}`);
             switch (type) {
                 case 'file':
                     $('.header-title').html(name);

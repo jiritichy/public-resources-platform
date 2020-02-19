@@ -18,7 +18,7 @@ public interface ResourceService {
 
     int updateResource(Resource resource);
 
-    Map<String, Object> findAll(Integer id);
+    Map<String, Object> findAll(Integer id, String name);
 
     Resource findById(int id);
 

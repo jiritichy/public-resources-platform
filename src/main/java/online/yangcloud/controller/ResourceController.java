@@ -43,8 +43,10 @@ public class ResourceController {
     }
 
     @GetMapping(value = "/findByFatherId/{fatherId}")
-    public Map<String, Object> findResourceList(@PathVariable("fatherId") int fatherId) {
-        return resourceServiceImpl.findAll(fatherId);
+    public Map<String, Object> findResourceList(@PathVariable("fatherId") int fatherId,
+                                                @RequestParam(value = "name", defaultValue = "") String name) {
+        logger.info("father id is {}, name is {}", fatherId, name);
+        return resourceServiceImpl.findAll(fatherId, name);
     }
 
     @GetMapping(value = "/findById/{id}")

@@ -45,7 +45,10 @@
         select
         <include refid="select_sql"/>
         from resources
-        <if test="father != null">where father = #{father}</if>
+        <trim prefix="where" suffixOverrides="and">
+            <if test="father != null">father = #{father} and</if>
+            <if test="name != null">`name` like #{name} and</if>
+        </trim>
         order by sort, id
     </select>
 
