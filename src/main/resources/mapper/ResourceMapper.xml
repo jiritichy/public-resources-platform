@@ -101,4 +101,12 @@
         </foreach>
     </update>
 
+    <select id="findByType" parameterType="string" resultType="resource">
+        select
+        <include refid="select_sql"/>
+        from resources
+        where `type` = #{type}
+        order by father, children
+    </select>
+
 </mapper>

@@ -212,19 +212,23 @@ function loadResourceForm() {
                 loadResources();
             })
         });
-        $.get(`${resourcesUrl}/getTreeStructure`, data => {
-            tree.render({
-                elem: '#structure',
-                data: data,
-                click: function (obj) {
-                    let data = obj.data;
-                    $('input[name=father]').val(data.id);
-                    $('.resource-name').html(data.title);
-                    $('#structure').fadeOut();
-                }
-            });
-        });
+        getFolderTree(tree);
     })
+}
+
+function getFolderTree(tree) {
+    $.get(`${resourcesUrl}/getFolderTree`, data => {
+        tree.render({
+            elem: '#structure',
+            data: data,
+            click: function (obj) {
+                let data = obj.data;
+                $('input[name=father]').val(data.id);
+                $('.resource-name').html(data.title);
+                $('#structure').fadeOut();
+            }
+        });
+    });
 }
 
 function changeFolder(obj) {

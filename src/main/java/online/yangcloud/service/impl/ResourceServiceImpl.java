@@ -70,7 +70,6 @@ public class ResourceServiceImpl implements ResourceService {
         resource = resourceMapper.findResourceById(resource.getId());
         if (!newFather.equals(resource.getFather())) {
             int oldFather = resource.getFather();
-            logger.info("id {}, newFather {}, oldFather {}", resource.getId(), newFather, oldFather);
             List<Resource> resources = resourceMapper.findAllByFather(oldFather, null);
             List<Resource> newResources = new ArrayList<>();
             for (int i = resource.getSort() + 1; i < resources.size(); i++) {
@@ -134,7 +133,25 @@ public class ResourceServiceImpl implements ResourceService {
 
     @Override
     public List<Map<String, Object>> getTreeStructure() {
-        return getTreeChildren(0);
+        List<Resource> resources = resourceMapper.findByType(GlobalConstant.FOLDER);
+        List<Map<String, Object>> resultMap = new ArrayList<>();
+        Map<String, Object> resourcesMap = new HashMap<>();
+        List<Map<String, Object>> childrenList = new ArrayList<>();
+        resourcesMap.put("id", 0);
+        resourcesMap.put("title", "/");
+        resourcesMap.put("children", childrenList);
+        resultMap.add(resourcesMap);
+        for (Resource resource : resources) {
+            resourcesMap = new HashMap<>();
+//            if (resource.getFather() == 0) {
+                resourcesMap.put("id", resource.getChildren());
+                resourcesMap.put("title", resource.getName());
+                resourcesMap.put("children", childrenList);
+//            }
+            resultMap.add(resourcesMap);
+        }
+//        return getTreeChildren(0);
+        return resultMap;
     }
 
     private List<Map<String, Object>> getTreeChildren(int father) {

@@ -34,4 +34,6 @@ public interface ResourceMapper {
 
     int updateResources(List<Resource> resources);
 
+    List<Resource> findByType(String type);
+
 }
