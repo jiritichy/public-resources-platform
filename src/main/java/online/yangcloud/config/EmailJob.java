@@ -29,9 +29,10 @@ public class EmailJob {
         if (!file.exists()) {
             boolean result = file.mkdirs();
         }
-        String filepath = backup + "\\resources.sql";
+        String filepath = backup + "resources.sql";
         BackupData.backupDataToFile("root", "root", filepath);
         Thread.sleep(1000);
+        emailUtil.sendEmail("zhuboyang1996@foxmail.com", filepath);
     }
 
 }

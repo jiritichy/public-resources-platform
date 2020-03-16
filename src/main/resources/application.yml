@@ -29,3 +29,7 @@ mybatis:
 logging:
   level:
     online.yangcloud.mapper: debug
+email:
+  port: 587
+  user: zhuboyang1996@foxmail.com
+  password: bplxqglzflhubbbj

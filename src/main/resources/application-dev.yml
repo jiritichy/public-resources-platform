@@ -6,4 +6,4 @@ spring:
     password: root
   resources:
     static-locations: classpath:/resources/,classpath:/static/,classpath:/templates/
-backup: E:\\resources\\backup
+backup: E:\\resources\\backup\\
