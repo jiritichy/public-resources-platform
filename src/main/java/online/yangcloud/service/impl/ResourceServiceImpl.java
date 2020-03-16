@@ -3,9 +3,12 @@ package online.yangcloud.service.impl;
 import online.yangcloud.entity.Resource;
 import online.yangcloud.mapper.ResourceMapper;
 import online.yangcloud.service.ResourceService;
+import online.yangcloud.tools.EmailUtil;
 import online.yangcloud.tools.GlobalConstant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -18,6 +21,12 @@ import java.util.*;
 
 @Service
 public class ResourceServiceImpl implements ResourceService {
+
+    @Value("${backup}")
+    private String backup;
+
+    @Autowired
+    private EmailUtil emailUtil;
 
     private Logger logger = LoggerFactory.getLogger(ResourceServiceImpl.class);
 
@@ -37,6 +46,7 @@ public class ResourceServiceImpl implements ResourceService {
         if (sort == null) resource.setSort(0);
         else resource.setSort(sort + 1);
         int result = resourceMapper.addResource(resource);
+
         if (result > 0) {
             return resourceMapper.findByLastTime();
         }
@@ -118,6 +128,7 @@ public class ResourceServiceImpl implements ResourceService {
             else
                 map.put("resource", resourceMapper.findAllByFather(resource.getChildren(), name));
         }
+
         return map;
     }
 
@@ -144,9 +155,9 @@ public class ResourceServiceImpl implements ResourceService {
         for (Resource resource : resources) {
             resourcesMap = new HashMap<>();
 //            if (resource.getFather() == 0) {
-                resourcesMap.put("id", resource.getChildren());
-                resourcesMap.put("title", resource.getName());
-                resourcesMap.put("children", childrenList);
+            resourcesMap.put("id", resource.getChildren());
+            resourcesMap.put("title", resource.getName());
+            resourcesMap.put("children", childrenList);
 //            }
             resultMap.add(resourcesMap);
         }

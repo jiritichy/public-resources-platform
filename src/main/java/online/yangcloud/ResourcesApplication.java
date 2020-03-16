@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
         SecurityAutoConfiguration.class
 })
 @MapperScan(value = "online.yangcloud.mapper")
+//@EnableScheduling
 public class ResourcesApplication {
 
     public static void main(String[] args) {
