@@ -1,9 +1,6 @@
 server:
   port: 8090
 spring:
-  datasource:
-    username: root
-    password: Jhxz951129Jhxz
   resources:
     static-locations: classpath:/resources/,classpath:/static/,classpath:/templates/
 backup: /data/resources/backup/

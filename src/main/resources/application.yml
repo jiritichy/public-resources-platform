@@ -1,8 +1,10 @@
 spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource          # 数据源类型：HikariCP
-    url: "jdbc:mysql://localhost:3306/resources?useSSL=false&useUnicode=true&characterEncoding=UTF-8\
+    url: "jdbc:mysql://139.199.30.68:3306/resources?useSSL=false&useUnicode=true&characterEncoding=UTF-8\
       &serverTimezone=Hongkong"
+    username: root
+    password: Jhxz951129Jhxz
     driver-class-name: com.mysql.jdbc.Driver
     hikari:
       connection-timeout: 30000       # 等待连接池分配连接的最大时长(毫秒),超过这个时长还没可用的连接则发生SQLException,默认:30秒

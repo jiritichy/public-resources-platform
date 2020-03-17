@@ -23,7 +23,7 @@ public class EmailJob {
     @Autowired
     private EmailUtil emailUtil;
 
-    @Scheduled(cron = "* * * 1/1 * ? *")
+    @Scheduled(cron = "0 0 0 * * ?")
     public void autoSendEmail() throws Exception {
         File file = new File(backup);
         if (!file.exists()) {
