@@ -32,11 +32,11 @@ public class EmailJob {
 
     @Scheduled(cron = "0 0 0 * * ?")
     public void autoSendEmail() throws Exception {
-        String backup;
+        String backup = "";
         String systemName = System.getProperty("os.name").toLowerCase();
         if (systemName.equals("windows 10"))
             backup = windowsBackupPath;
-        else
+        else if (systemName.equals("linux"))
             backup = linuxBackupPath;
         File file = new File(backup);
         if (!file.exists()) {

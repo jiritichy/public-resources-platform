@@ -34,8 +34,8 @@ public class ResourcesApplication implements WebServerFactoryCustomizer<Configur
         String systemName = System.getProperty("os.name").toLowerCase();
         if (systemName.equals("windows 10")) {
             factory.setPort(80);
-        } else {
-            factory.setPort(8082);
+        } else if (systemName.equals("linux")){
+            factory.setPort(8090);
         }
     }
 }
