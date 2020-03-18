@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.web.server.ConfigurableWebServerFactory;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Controller;
 
 @Controller
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Controller;
         SecurityAutoConfiguration.class
 })
 @MapperScan(value = "online.yangcloud.mapper")
-//@EnableScheduling
+@EnableScheduling
 public class ResourcesApplication implements WebServerFactoryCustomizer<ConfigurableWebServerFactory> {
 
     public static void main(String[] args) {
